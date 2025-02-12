@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <title>Datametrics</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #212121;
+            margin: 0;
+            flex-direction: column;
+            color: rgb(124, 124, 124);
+            font-family: "Poppins", sans-serif;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .card {
+            background-color: #212121;
+            padding: 1rem 2rem;
+            border-radius: 1.25rem;
+            text-align: center;
+            max-width: 90%;
+            width: 100%;
+        }
+
+        .loader {
+            font-weight: 500;
+            font-size: 3rem;
+            height: auto;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            gap: 8px;
+        }
+
+        .words {
+            overflow: hidden;
+            position: relative;
+            display: inline-block;
+            height: 1.5em;
+        }
+
+        .words::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(#212121 10%, transparent 30%, transparent 70%, #212121 90%);
+            z-index: 20;
+        }
+
+        .word {
+            display: block;
+            height: 100%;
+            padding-left: 6px;
+            color: #956afa;
+            animation: spin_4991 8s infinite;
+        }
+
+        @keyframes spin_4991 {
+            10% { transform: translateY(-102%); }
+            25% { transform: translateY(-100%); }
+            35% { transform: translateY(-202%); }
+            50% { transform: translateY(-200%); }
+            60% { transform: translateY(-302%); }
+            75% { transform: translateY(-300%); }
+            85% { transform: translateY(-402%); }
+            100% { transform: translateY(-400%); }
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .countdown div {
+            background: #333;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 16px;
+            color: #956afa;
+            font-weight: bold;
+            width: 70px;
+        }
+
+        .countdown div span {
+            display: block;
+            font-size: 3rem;
+            color: rgb(124, 124, 124);
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                width: 100%;
+                padding: 1rem;
+            }
+            .loader {
+                font-size: 18px;
+                flex-direction: column;
+            }
+            .countdown div {
+                width: 50px;
+                padding: 8px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="loader">
+            <p>Datametrics</p>
+            <div class="words">
+                <span class="word">  </span>
+                <span class="word">I A</span>
+                <span class="word">Analytics</span>
+                <span class="word">Insights</span>
+                <span class="word">Visualization</span>
+                <span class="word">Trends</span>
+                <span class="word">  </span>
+            </div>
+        </div>
+        <div class="countdown" id="countdown">
+            <div><span id="days">7</span>Days</div>
+            <div><span id="hours">00</span>Hours</div>
+            <div><span id="minutes">00</span>Min</div>
+            <div><span id="seconds">00</span>Sec</div>
+        </div>
+    </div>
+
+    <script>
+        function updateCountdown() {
+            const targetDate = new Date();
+            targetDate.setDate(targetDate.getDate() + 8);
+            targetDate.setHours(0, 0, 0, 0);
+
+            function calculateTimeLeft() {
+                const now = new Date().getTime();
+                const timeLeft = targetDate - now;
+
+                return {
+                    days: Math.floor(timeLeft / (1000 * 60 * 60 * 24)),
+                    hours: Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+                    minutes: Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)),
+                    seconds: Math.floor((timeLeft % (1000 * 60)) / 1000)
+                };
+            }
+
+            function updateTimerDisplay() {
+                const timeLeft = calculateTimeLeft();
+                document.getElementById("days").textContent = timeLeft.days;
+                document.getElementById("hours").textContent = timeLeft.hours.toString().padStart(2, '0');
+                document.getElementById("minutes").textContent = timeLeft.minutes.toString().padStart(2, '0');
+                document.getElementById("seconds").textContent = timeLeft.seconds.toString().padStart(2, '0');
+            }
+
+            setInterval(updateTimerDisplay, 1000);
+            updateTimerDisplay();
+        }
+
+        updateCountdown();
+    </script>
+</body>
+</html>
